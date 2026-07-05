@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+  ::selection {
+    @apply bg-primary-200 text-primary-900;
+  }
+}
+
+@layer utilities {
+  .bg-grid {
+    background-image: radial-gradient(circle at 1px 1px, rgba(82, 87, 189, 0.12) 1px, transparent 0);
+    background-size: 28px 28px;
+  }
+}
