@@ -1,12 +1,11 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { CheckCircle2, Mail, MapPin, MessageSquareText, Phone } from "lucide-react";
+import { CheckCircle2, MapPin, MessageSquareText, Phone } from "lucide-react";
 import { Container } from "@/components/Container";
 import { Button } from "@/components/Button";
 
 const CONTACT_INFO = [
-  { icon: Mail, label: "E-mail", value: "contato@nexusbi.com.br" },
-  { icon: Phone, label: "Telefone", value: "(28) 3524-1073" },
+  { icon: Phone, label: "Telefone", value: "(28) 99946-9435" },
   { icon: MapPin, label: "Localização", value: "Cachoeiro de Itapemirim, ES" },
 ];
 
