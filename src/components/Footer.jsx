@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { BarChart3, Linkedin, Mail, MapPin, Phone } from "lucide-react";
+import { BarChart3, Linkedin, MapPin, Phone } from "lucide-react";
 import { Container } from "./Container";
 
 export function Footer() {
@@ -42,8 +42,7 @@ export function Footer() {
         <div>
           <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Contato</p>
           <ul className="mt-4 space-y-2.5 text-sm text-foreground/80">
-            <li className="flex items-center gap-2"><Mail className="h-4 w-4 text-primary-500" /> contato@nexusbi.com.br</li>
-            <li className="flex items-center gap-2"><Phone className="h-4 w-4 text-primary-500" /> (28) 3524-1073</li>
+            <li className="flex items-center gap-2"><Phone className="h-4 w-4 text-primary-500" /> (28) 99946-9435</li>
             <li className="flex items-center gap-2"><MapPin className="h-4 w-4 text-primary-500" /> Cachoeiro de Itapemirim, ES</li>
             <li className="flex items-center gap-2"><Linkedin className="h-4 w-4 text-primary-500" /> /company/nexusbi</li>
           </ul>
