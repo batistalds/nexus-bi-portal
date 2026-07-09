@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { ArrowRight, Compass, Handshake, Heart, Lightbulb, Target } from "lucide-react";
 import { Container } from "@/components/Container";
 import { Button } from "@/components/Button";
+import { WHATSAPP_URL } from "@/lib/config";
 
 const VALUES = [
   {
@@ -106,7 +107,7 @@ export default function Sobre() {
             Fale com a gente ou entre no portal do cliente para ver um painel real em funcionamento.
           </p>
           <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <Button as={Link} to="/contato" size="lg">
+            <Button as="a" href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" size="lg">
               Falar com um especialista <ArrowRight className="h-4 w-4" />
             </Button>
             <Button as={Link} to="/portal" variant="outline" size="lg">

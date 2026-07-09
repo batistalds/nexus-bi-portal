@@ -4,6 +4,7 @@ import {
 } from "lucide-react";
 import { Container } from "@/components/Container";
 import { Button } from "@/components/Button";
+import { WHATSAPP_URL } from "@/lib/config";
 
 const MODULES = [
   {
@@ -119,7 +120,7 @@ export default function Solucoes() {
               Cores, indicadores e fluxos desenhados para o seu segmento, não um template pronto.
             </p>
           </div>
-          <Button as={Link} to="/contato" size="lg">
+          <Button as="a" href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" size="lg">
             Falar com um especialista <ArrowRight className="h-4 w-4" />
           </Button>
         </Container>

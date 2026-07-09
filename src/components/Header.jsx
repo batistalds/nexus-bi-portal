@@ -4,6 +4,7 @@ import { BarChart3, Menu, X } from "lucide-react";
 import { Container } from "./Container";
 import { Button } from "./Button";
 import { cn } from "@/lib/utils";
+import { WHATSAPP_URL } from "@/lib/config";
 
 const NAV_ITEMS = [
   { to: "/", label: "Home" },
@@ -54,7 +55,7 @@ export function Header() {
           <Button as={Link} to="/portal" variant="soft" size="sm">
             Portal do cliente
           </Button>
-          <Button as={Link} to="/contato" size="sm">
+          <Button as="a" href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" size="sm">
             Falar com um especialista
           </Button>
         </div>
@@ -90,7 +91,7 @@ export function Header() {
               <Button as={Link} to="/portal" variant="soft">
                 Portal do cliente
               </Button>
-              <Button as={Link} to="/contato">
+              <Button as="a" href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
                 Falar com um especialista
               </Button>
             </div>
