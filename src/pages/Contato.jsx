@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { AlertTriangle, CheckCircle2, MapPin, MessageSquareText, Phone } from "lucide-react";
 import { Container } from "@/components/Container";
 import { Button } from "@/components/Button";
@@ -10,10 +10,21 @@ const CONTACT_INFO = [
   { icon: MapPin, label: "Localização", value: "Cachoeiro de Itapemirim, ES" },
 ];
 
+const EMPTY_FORM = { nome: "", email: "", empresa: "", mensagem: "" };
+
 export default function Contato() {
-  const [form, setForm] = useState({ nome: "", email: "", empresa: "", mensagem: "" });
+  const location = useLocation();
+  const [form, setForm] = useState(EMPTY_FORM);
   const [status, setStatus] = useState("idle"); // idle | loading | success | error
   const [errorMsg, setErrorMsg] = useState("");
+
+  // Reinicia o formulário sempre que a página de Contato é (re)visitada,
+  // inclusive ao clicar em "Contato" na barra de navegação a partir da própria tela.
+  useEffect(() => {
+    setForm(EMPTY_FORM);
+    setStatus("idle");
+    setErrorMsg("");
+  }, [location.key]);
 
   function handleChange(e) {
     const { name, value } = e.target;
