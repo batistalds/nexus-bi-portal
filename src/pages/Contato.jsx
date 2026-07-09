@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { CheckCircle2, MapPin, MessageSquareText, Phone } from "lucide-react";
+import { AlertTriangle, CheckCircle2, MapPin, MessageSquareText, Phone } from "lucide-react";
 import { Container } from "@/components/Container";
 import { Button } from "@/components/Button";
+import { WEB3FORMS_ACCESS_KEY } from "@/lib/config";
 
 const CONTACT_INFO = [
   { icon: Phone, label: "Telefone", value: "(28) 99946-9435" },
@@ -11,30 +12,45 @@ const CONTACT_INFO = [
 
 export default function Contato() {
   const [form, setForm] = useState({ nome: "", email: "", empresa: "", mensagem: "" });
-  const [sent, setSent] = useState(false);
+  const [status, setStatus] = useState("idle"); // idle | loading | success | error
+  const [errorMsg, setErrorMsg] = useState("");
 
   function handleChange(e) {
     const { name, value } = e.target;
     setForm((f) => ({ ...f, [name]: value }));
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
+    setStatus("loading");
+    setErrorMsg("");
 
-    const subject = `CLIENTE - NEXUSBI - ${form.nome}`;
-    const body = [
-      `Nome: ${form.nome}`,
-      `Empresa: ${form.empresa || "não informada"}`,
-      `E-mail para retorno: ${form.email}`,
-      "",
-      "Mensagem:",
-      form.mensagem || "(sem mensagem)",
-    ].join("\n");
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({
+          access_key: WEB3FORMS_ACCESS_KEY,
+          subject: `CLIENTE - NEXUSBI - ${form.nome}`,
+          from_name: "Portal Nexus BI",
+          name: form.nome,
+          email: form.email,
+          empresa: form.empresa || "não informada",
+          message: form.mensagem,
+        }),
+      });
+      const result = await response.json();
 
-    const mailtoUrl = `mailto:batistalds@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    window.location.href = mailtoUrl;
-
-    setSent(true);
+      if (result.success) {
+        setStatus("success");
+      } else {
+        setStatus("error");
+        setErrorMsg(result.message || "Não foi possível enviar sua mensagem. Tente novamente.");
+      }
+    } catch {
+      setStatus("error");
+      setErrorMsg("Falha de conexão. Verifique sua internet e tente novamente.");
+    }
   }
 
   return (
@@ -55,15 +71,15 @@ export default function Contato() {
 
         <div className="mx-auto mt-14 grid max-w-5xl grid-cols-1 gap-8 lg:grid-cols-5">
           <div className="lg:col-span-3 rounded-2xl border border-border bg-card p-6 shadow-soft sm:p-8">
-            {sent ? (
+            {status === "success" ? (
               <div className="flex flex-col items-center justify-center gap-3 py-16 text-center animate-fade-in">
                 <div className="flex h-14 w-14 items-center justify-center rounded-full bg-mint/20 text-mint-foreground">
                   <CheckCircle2 className="h-7 w-7" />
                 </div>
-                <h2 className="text-xl font-bold text-foreground">Quase lá!</h2>
+                <h2 className="text-xl font-bold text-foreground">Mensagem enviada!</h2>
                 <p className="max-w-xs text-sm text-muted-foreground">
-                  Obrigado, {form.nome.split(" ")[0] || "tudo certo"}. Abrimos seu aplicativo de e-mail com a
-                  mensagem pronta — é só confirmar o envio por lá.
+                  Obrigado, {form.nome.split(" ")[0] || "tudo certo"}. Nosso time entra em contato em breve
+                  pelo e-mail informado.
                 </p>
               </div>
             ) : (
@@ -126,8 +142,16 @@ export default function Contato() {
                     className="mt-1.5 w-full resize-none rounded-lg border border-border bg-background px-3.5 py-2.5 text-sm text-foreground outline-none transition-colors focus:border-primary-300 focus:ring-2 focus:ring-primary-100"
                   />
                 </div>
-                <Button type="submit" size="lg" className="w-full sm:w-auto">
-                  Enviar mensagem
+
+                {status === "error" && (
+                  <div className="flex items-start gap-2.5 rounded-lg border border-red-200 bg-red-50 px-3.5 py-3 text-sm text-red-700">
+                    <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />
+                    <span>{errorMsg}</span>
+                  </div>
+                )}
+
+                <Button type="submit" size="lg" className="w-full sm:w-auto" disabled={status === "loading"}>
+                  {status === "loading" ? "Enviando..." : "Enviar mensagem"}
                 </Button>
               </form>
             )}
