@@ -20,6 +20,20 @@ export default function Contato() {
 
   function handleSubmit(e) {
     e.preventDefault();
+
+    const subject = `CLIENTE - NEXUSBI - ${form.nome}`;
+    const body = [
+      `Nome: ${form.nome}`,
+      `Empresa: ${form.empresa || "não informada"}`,
+      `E-mail para retorno: ${form.email}`,
+      "",
+      "Mensagem:",
+      form.mensagem || "(sem mensagem)",
+    ].join("\n");
+
+    const mailtoUrl = `mailto:batistalds@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    window.location.href = mailtoUrl;
+
     setSent(true);
   }
 
@@ -46,10 +60,10 @@ export default function Contato() {
                 <div className="flex h-14 w-14 items-center justify-center rounded-full bg-mint/20 text-mint-foreground">
                   <CheckCircle2 className="h-7 w-7" />
                 </div>
-                <h2 className="text-xl font-bold text-foreground">Mensagem enviada!</h2>
+                <h2 className="text-xl font-bold text-foreground">Quase lá!</h2>
                 <p className="max-w-xs text-sm text-muted-foreground">
-                  Obrigado, {form.nome.split(" ")[0] || "tudo certo"}. Nosso time entra em contato em breve
-                  pelo e-mail informado.
+                  Obrigado, {form.nome.split(" ")[0] || "tudo certo"}. Abrimos seu aplicativo de e-mail com a
+                  mensagem pronta — é só confirmar o envio por lá.
                 </p>
               </div>
             ) : (
